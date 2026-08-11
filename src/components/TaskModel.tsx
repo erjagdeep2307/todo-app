@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Modal from "./Modal";
 import FormControl from "./FormControl";
 import Button from "./Button";
@@ -19,7 +18,7 @@ interface TaskModalProp {
   onClose: () => void;
 }
 export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
-  const [error, setError] = useState<string | "">("");
+  // const [error, setError] = useState<string | "">("");
   const { mutate: createTask, isPending: isCreating } = useCreateTask();
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,14 +45,14 @@ export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
     <Modal title="Add New Task" isOpen={isOpen} onClose={() => onClose()}>
       <form className="w-full" onSubmit={handleSubmit}>
         {/* Error Banner */}
-        {error && (
+        {/* {error && (
           <div
             role="alert"
             className="mb-4 p-3 text-sm text-red-800 bg-red-50 border border-red-200 rounded-md flex items-center gap-2 animate-fadeIn"
           >
             <span className="font-medium">{error}</span>
           </div>
-        )}
+        )} */}
 
         <FormControl labelText="title" id="title">
           <div className="relative flex items-center gap-2">
