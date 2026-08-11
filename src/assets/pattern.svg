@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <!-- Background Pattern -->
+  <defs>
+    <pattern id="doodle-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <!-- Lightbulb outline -->
+      <path d="M25 15 C20 15 16 19 16 24 C16 28 19 31 21 33 L21 38 C21 39.1 21.9 40 23 40 L27 40 C28.1 40 29 39.1 29 38 L29 33 C31 31 34 28 34 24 C34 19 30 15 25 15 Z" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3"/>
+      <!-- Gear outline -->
+      <path d="M75 20 L77 20 L78 22 L80 23 L82 21 L84 23 L82 25 L83 27 L85 28 L85 30 L83 31 L82 33 L84 35 L82 37 L80 35 L78 36 L77 38 L75 38 L74 36 L72 35 L70 37 L68 35 L70 33 L69 31 L67 30 L67 28 L69 27 L70 25 L68 23 L70 21 L72 23 L74 22 Z" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3"/>
+      <circle cx="76" cy="29" r="3" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3"/>
+      <!-- Chart lines icon -->
+      <rect x="15" y="70" width="20" height="20" rx="3" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3"/>
+      <path d="M20 83 L23 80 L26 84 L30 76" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3"/>
+      <!-- Target / Dart outline -->
+      <circle cx="75" cy="75" r="10" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3"/>
+      <circle cx="75" cy="75" r="5" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3"/>
+      <path d="M75 60 L75 90 M60 75 L90 75" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Base Color Layer -->
+  <rect width="100%" height="100%" fill="#ff6767"/>
+
+  <!-- Pattern Overlay Layer -->
+  <rect width="100%" height="100%" fill="url(#doodle-pattern)"/>
+</svg>

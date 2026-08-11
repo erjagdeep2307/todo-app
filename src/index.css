@@ -1,0 +1,29 @@
+/* 1. Core Imports */
+@import "tailwindcss";
+
+/* Fontsource imports must happen below Tailwind in v4 */
+@import "@fontsource/inter/300.css"; 
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/700.css";
+
+/* 2. Tailwind configuration (v4 Theme block) */
+@theme {
+  /* Set Inter as your default sans-serif font across your whole project */
+  --font-sans: "Inter", sans-serif;
+
+  /* Custom App Colors */
+  --color-todo-primary: #ff6767;
+  --color-todo-button: #FF9090;
+  --color-todo-secondary: #312e81;
+  --color-todo-accent: #06b6d4;
+  --color-todo-light: #F5F8FF;
+  --color-todo-sky: #3ABEFF;
+}
+
+/* 3. Custom Utility Classes */
+.bg-pattern {
+  background-color: var(--color-todo-primary);
+  background-image: url("assets/bgpattern.png");
+  background-repeat: repeat;
+}
+
