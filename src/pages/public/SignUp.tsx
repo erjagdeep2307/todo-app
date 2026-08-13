@@ -13,6 +13,8 @@ import type { SignUpFormData } from "../../features/todo/types/todo.types";
 import { Link } from "react-router-dom";
 import { AuthError } from "@supabase/supabase-js";
 import { toast } from "sonner";
+import { uploadCloudinary } from "../../lib/cloudinary";
+import { getCloudinaryVersionFromPath } from "../../utils/utils";
 export default function SignUp() {
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string>("");
@@ -31,7 +33,7 @@ export default function SignUp() {
       email: formData.get("email") as string,
       password: formData.get("password") as string,
       confirmPassword: formData.get("confirmPassword") as string,
-      profileImage: (formData.get("profileImage") as File) || null,
+      profileImage: null,
     };
 
     // Client-side validation before triggering API call
@@ -46,7 +48,12 @@ export default function SignUp() {
     }
 
     setIsSending(true);
-
+    let resp = await uploadCloudinary(formData.get("profileImage") as File);
+    if (!resp.secure_url) {
+      toast.warning(`Unable to upload the Image`);
+    }
+    const imageVer = getCloudinaryVersionFromPath(resp.secure_url);
+    data.profileImage = `${imageVer}/${resp.public_id}`;
     try {
       const resp = await signUp(data);
       if (resp instanceof AuthError) {

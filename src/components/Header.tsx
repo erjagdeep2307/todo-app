@@ -42,7 +42,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <input
               name="searchBar"
               type="text"
-              className="w-full md:min-w-lg rounded-lg outline-none px-3 bg-white text-sm md:text-base border border-gray-200 focus:border-blue-300 transition-colors placeholder:italic placeholder:text-xs"
+              className="w-full md:min-w-lg rounded-lg outline-none h-6 px-3 bg-white text-sm md:text-base border border-gray-200 focus:border-blue-300 transition-colors placeholder:italic placeholder:text-xs"
               placeholder="Search Here"
             />
             <span className="absolute right-0 bg-todo-primary w-6 h-6 rounded-r-md flex items-center justify-center cursor-pointer">

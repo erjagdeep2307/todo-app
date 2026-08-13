@@ -8,13 +8,14 @@ import {
   ArrowRightStartOnRectangleIcon,
   XMarkIcon,
 } from "@heroicons/react/16/solid";
-import { cn } from "../utils/utils";
+import { cn, getImageUrl } from "../utils/utils";
 import { useAuth } from "../context/AuthContext";
 import { NavLink } from "react-router-dom";
 
 interface SidebarProps {
   mobileOpen?: boolean;
   onMobileClose?: () => void;
+  avtar: string;
 }
 
 // 1. Define explicit type for navigation items
@@ -28,6 +29,7 @@ interface NavItem {
 export default function Sidebar({
   mobileOpen = false,
   onMobileClose,
+  avtar,
 }: SidebarProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { signOut } = useAuth();
@@ -88,7 +90,7 @@ export default function Sidebar({
               )}
             >
               <img
-                src={userImage}
+                src={(avtar && getImageUrl(avtar, 0, 0)) || userImage}
                 alt="User Profile"
                 className={cn(
                   "rounded-full bg-white object-cover shadow-lg transition-all duration-300 ease-in-out",
@@ -99,27 +101,26 @@ export default function Sidebar({
 
             {/* Navigation Links */}
             <div className="pt-6 space-y-2">
-            
-                {navItems.map(({ label, icon: Icon,link="", action }) => (
-                  <NavLink
-                    to={link}
-                    key={label}
-                    className="flex items-center gap-4 px-2 py-2 rounded hover:bg-slate-800 text-slate-300 whitespace-nowrap cursor-pointer select-none"
-                    onClick={() => action?.()} // 3. Invoke optional action safely without event arguments
+              {navItems.map(({ label, icon: Icon, link = "", action }) => (
+                <NavLink
+                  to={link}
+                  key={label}
+                  className="flex items-center gap-4 px-2 py-2 rounded hover:bg-slate-800 text-slate-300 whitespace-nowrap cursor-pointer select-none"
+                  onClick={() => action?.()} // 3. Invoke optional action safely without event arguments
+                >
+                  <Icon className="w-5 h-5 shrink-0" />
+                  <span
+                    className={cn(
+                      "transition-all duration-200 ease-in-out",
+                      sidebarOpen
+                        ? "opacity-100 translate-x-0"
+                        : "lg:opacity-0 lg:-translate-x-2 lg:pointer-events-none",
+                    )}
                   >
-                    <Icon className="w-5 h-5 shrink-0" />
-                    <span
-                      className={cn(
-                        "transition-all duration-200 ease-in-out",
-                        sidebarOpen
-                          ? "opacity-100 translate-x-0"
-                          : "lg:opacity-0 lg:-translate-x-2 lg:pointer-events-none",
-                      )}
-                    >
-                      {label}
-                    </span>
-                  </NavLink>
-                ))}
+                    {label}
+                  </span>
+                </NavLink>
+              ))}
             </div>
           </div>
 

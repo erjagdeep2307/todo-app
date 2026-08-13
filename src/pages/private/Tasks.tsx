@@ -5,7 +5,7 @@ import { useDeleteTask, useTasks } from "../../hooks/Tasks";
 import { useState, useEffect } from "react";
 import type { Task } from "../../features/todo/types/todo.types";
 import { getImageUrl } from "../../utils/utils";
-
+import { toast } from "sonner";
 export default function Tasks() {
   const [curTask, setCurTask] = useState<Task | null>(null);
   const { data, isLoading } = useTasks();
@@ -32,12 +32,12 @@ export default function Tasks() {
     deleteTask(curTask.id,{
       onSuccess: () => {
           setCurTask(null); // Clear selected task detail view
+          toast.success(`Task Deleted`);
         },
         onError: (error) => {
-          alert(`Failed to delete task: ${error.message}`);
+          toast.error(error.message);
         },
     });
-    // Trigger delete modal or mutation here
   };
 
   const handleEditTask = () => {
@@ -46,7 +46,7 @@ export default function Tasks() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 h-full min-h-0 flex flex-col gap-1">
+    <div className="max-w-7xl mx-auto sm:px-4 h-full min-h-0 flex flex-col gap-1">
       <section className="flex-1 flex-wrap min-h-0 overflow-y-auto bg-slate rounded-lg">
         <div className="flex min-h-full flex-col gap-3 lg:flex-row lg:justify-between p-2">
           
@@ -82,7 +82,7 @@ export default function Tasks() {
           </div>
 
           {/* Right Panel: Task Details */}
-          <div className="flex flex-col text-[11px] bg-white text-gray-400 w-full lg:w-[60%] min-h-full border border-gray-200 rounded-lg p-3 sm:text-xs gap-1">
+          <div className=" hidden sm:flex flex-col text-[11px] bg-white text-gray-400 w-full lg:w-[60%] min-h-full border border-gray-200 rounded-lg p-3 sm:text-xs gap-1">
             {curTask ? (
               <>
                 <div className="flex gap-3">

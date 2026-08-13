@@ -10,10 +10,12 @@ async function signUp(formData: SignUpFormData) {
     password: formData.password,
     options: {
       data: {
+        avtar_url:formData.profileImage,
         full_name: formData.fullName,
       },
     },
   });
+ 
   if (error) {
     return error;
   }

@@ -7,8 +7,11 @@ import { useState } from "react";
 import { AuthError } from "@supabase/supabase-js";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import FormControl from "../../components/FormControl";
+import { rememberMe } from "../../lib/supabase";
 
 export default function Login() {
+  const [remind, setRemind] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,7 +28,11 @@ export default function Login() {
     }
     setLoading(false);
   }
-
+  const toggleMode = () => {
+    let newMode = !remind;
+    setRemind((prev) => !prev);
+    rememberMe(newMode);
+  };
   return (
     <div className="grid min-h-0 grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-8">
       <section className="flex min-h-0 items-center justify-center">
@@ -43,9 +50,10 @@ export default function Login() {
               <input
                 type="email"
                 name="username"
-                id="email-alternative"
+                id="username"
                 className="bg-neutral-secondary-medium border border-default-medium rounded-md text-heading text-sm focus:ring-brand focus:border-brand block w-full pl-10 pr-3 py-2.5 shadow placeholder:text-body"
                 placeholder="Enter Email"
+                autoComplete="username"
                 required
               />
             </div>
@@ -63,13 +71,26 @@ export default function Login() {
               <input
                 type="password"
                 name="password"
-                id="password-alternative"
+                id="password"
                 className="bg-neutral-secondary-medium border border-default-medium rounded-md text-heading text-sm focus:ring-brand focus:border-brand block w-full pl-10 pr-3 py-2.5 shadow placeholder:text-body"
                 placeholder="********"
+                autoComplete="current-password"
                 required
               />
             </div>
           </div>
+          <FormControl
+            id="remember"
+            labelText={""}
+            className="flex items-center gap-1"
+          >
+            <input
+              type="checkbox"
+              defaultChecked={remind}
+              onClick={() => toggleMode()}
+            />
+            <span className="text-sm">Remember Me</span>
+          </FormControl>
 
           <Button
             type="submit"

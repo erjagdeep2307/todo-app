@@ -26,7 +26,8 @@ export default function AppLayout() {
         <Sidebar
           mobileOpen={mobileMenuOpen}
           onMobileClose={() => setMobileMenuOpen(false)}
-        />
+          avtar={user?.user_metadata?.avtar_url}
+                  />
         <main className="min-w-0 flex-1 min-h-0 overflow-hidden px-3 pb-1 bg-slate sm:px-6">
           <Outlet />
         </main>

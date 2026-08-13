@@ -12,11 +12,8 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center bg-slate-50 p-4 overflow-hidden">
-      {/* Background Soft Glow Accents */}
-      <div className="pointer-events-none absolute -top-20 -left-20 h-96 w-96 rounded-full bg-todo-primary/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-20 -right-20 h-96 w-96 rounded-full bg-todo-primary/10 blur-3xl" />
-
+    <div className="relative flex min-h-screen w-full items-center justify-center bg-slate-50 p-3 overflow-hidden">
+  
       {/* Main Container Card */}
       <div className="relative z-10 flex w-full max-w-md flex-col items-center rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-xl text-center">
         {/* Top Status Indicator */}
@@ -68,11 +65,11 @@ export default function NotFound() {
           </button>
 
           <Link
-            to="/admin/tasks"
+            to="/"
             className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-todo-primary px-4 py-2.5 text-xs font-semibold text-white shadow-sm hover:opacity-90 transition-opacity"
           >
             <HomeIcon className="h-4 w-4" />
-            <span>My Tasks</span>
+            <span>Dashboard</span>
           </Link>
         </div>
       </div>

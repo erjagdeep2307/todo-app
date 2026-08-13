@@ -51,7 +51,7 @@ export interface SignUpFormData {
   email: string;
   password: string;
   confirmPassword: string;
-  profileImage: File | null;
+  profileImage: string | null;
 }
 
 export interface LoginFormData {

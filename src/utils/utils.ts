@@ -30,5 +30,11 @@ export const PRIORITY = ["Low", "Extreme", "High"];
 export const STATUS = ["Completed", "InProgress", "NoStarted"];
 
 const baseCloudURL = import.meta.env.VITE_CLOUDINARY_BASE_URL;
-export const getImageUrl = (publicId: string, width: number, height: number) =>
-  `${baseCloudURL}w_${width},h_${height},c_fill,g_auto,f_webp,q_auto/${publicId}.webp`;
+export const getImageUrl = (publicId: string, width: number=0, height: number=0) =>
+{
+  if(width===0 || height===0){
+    return `${baseCloudURL}/${publicId}.webp`; 
+  }
+  return `${baseCloudURL}w_${width},h_${height},c_fill,g_auto,f_webp,q_auto/${publicId}.webp`;
+
+}
