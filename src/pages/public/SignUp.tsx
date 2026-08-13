@@ -12,6 +12,7 @@ import FormControl from "../../components/FormControl";
 import type { SignUpFormData } from "../../features/todo/types/todo.types";
 import { Link } from "react-router-dom";
 import { AuthError } from "@supabase/supabase-js";
+import { toast } from "sonner";
 export default function SignUp() {
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string>("");
@@ -51,12 +52,15 @@ export default function SignUp() {
       if (resp instanceof AuthError) {
         setError(resp.message);
       } else {
-        setSuccess("Account created successfully! Check your email to confirm registration.");
+        toast.success("Account Created, check you email and confirm.");
+        setSuccess(
+          "Account created successfully! Check your email to confirm registration.",
+        );
         form.reset();
       }
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
-      console.error("Sign up failed:", err);
+      toast.error(`Failed to create Account`);
     } finally {
       setIsSending(false);
     }
@@ -171,7 +175,9 @@ export default function SignUp() {
             variant="primary"
             disabled={isSending}
             className={`${
-              isSending ? "cursor-progress pointer-events-none opacity-70" : "cursor-pointer"
+              isSending
+                ? "cursor-progress pointer-events-none opacity-70"
+                : "cursor-pointer"
             } mt-2 w-full rounded-md`}
           >
             {isSending ? "Submitting..." : "Sign Up"}

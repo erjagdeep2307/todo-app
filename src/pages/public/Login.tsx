@@ -6,25 +6,22 @@ import { singIn } from "../../services/Auth";
 import { useState } from "react";
 import { AuthError } from "@supabase/supabase-js";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function Login() {
-  const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError(""); // Clear previous errors before submission
     const form = e.currentTarget;
     let formData = new FormData(form);
     let data: LoginFormData = {
       username: formData.get("username") as string,
       password: formData.get("password") as string,
     };
-
     setLoading(true);
     let resp = await singIn(data);
     if (resp instanceof AuthError) {
-      setError(resp.message);
+      toast.error(resp.message);
     }
     setLoading(false);
   }
@@ -34,16 +31,6 @@ export default function Login() {
       <section className="flex min-h-0 items-center justify-center">
         <form className="w-full max-w-sm" onSubmit={handleSubmit}>
           <h1 className="mb-5 text-2xl font-semibold text-heading">Login</h1>
-          
-          {error && (
-            <div
-              role="alert"
-              className="mb-4 p-3 text-sm text-red-800 bg-red-50 border border-red-200 rounded-md flex items-center gap-2 animate-fadeIn"
-            >
-              <span className="font-medium">{error}</span>
-            </div>
-          )}
-
           <div className="mb-5">
             <label
               htmlFor="email-alternative"

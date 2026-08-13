@@ -3,6 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { useAuth } from "../context/AuthContext";
+import { Toaster } from "sonner";
 export default function AppLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, loading } = useAuth();
@@ -29,6 +30,7 @@ export default function AppLayout() {
         <main className="min-w-0 flex-1 min-h-0 overflow-hidden px-3 pb-1 bg-slate sm:px-6">
           <Outlet />
         </main>
+        <Toaster position="top-right" richColors />
       </div>
     </div>
   );
