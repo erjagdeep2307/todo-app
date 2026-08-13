@@ -72,7 +72,7 @@ export interface AuthContextType {
   signOut: () => Promise<{ error: AuthError | null }>;
 }
 
-export type TaskPriority = "Low" | "Medium" | "High";
+export type TaskPriority = "Low" | "Extreme" | "High";
 
 export type TaskStatus = "NoStarted" | "InProgress" | "Completed";
 
@@ -84,7 +84,7 @@ export interface CreateTaskFormData {
   priority: TaskPriority;
   status: TaskStatus;
   deadline_at?: string;
-  taskImage?: File | null;
+  taskImage?: string | null;
 }
 
 export interface Task {

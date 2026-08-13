@@ -20,7 +20,7 @@ export default function Modal({
         >
           <div
             className={cn(
-              "relative max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto rounded-lg border border-gray-200 bg-white p-4 text-gray-700 shadow-xl sm:p-6",
+              "relative max-h-[calc(100dvh-2rem)] w-full max-w-3xl overflow-y-auto rounded-lg border border-gray-200 bg-white p-4 text-gray-700 shadow-xl sm:p-6",
               className,
             )}
             {...props}

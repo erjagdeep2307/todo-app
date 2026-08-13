@@ -1,45 +1,41 @@
-// Types for Cloudinary API responses
-export interface CloudinarySuccessResponse {
-  secure_url: string;
+import imageCompression from "browser-image-compression";
+const CLOUD_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET;
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD;
+if (!CLOUD_NAME || !CLOUD_PRESET) {
+  console.warn(`Missing Cloudinary Information form Enviourment`);
+}
+export interface CloudinaryUploadResp {
   public_id: string;
-  format: string;
-  width: number;
-  height: number;
+  secure_url: string;
 }
 
-export interface CloudinaryErrorResponse {
-  error: {
-    message: string;
+export const uploadCloudinary = async (
+  file: File,
+): Promise<CloudinaryUploadResp> => {
+  const compressionOptions = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1200,
+    useWebWorker: true,
   };
-}
-
-export type CloudinaryResponse = CloudinarySuccessResponse | CloudinaryErrorResponse;
-
-const CLOUD_NAME = "todoupload"; 
-const UPLOAD_PRESET = "todoupload";
-
-/**
- * Uploads a File object to Cloudinary and returns the secure URL string.
- */
-export async function uploadToCloudinary(image: File): Promise<string> {
+  const compressedImage = await imageCompression(file, compressionOptions);
   const formData = new FormData();
-  formData.append("file", image);
-  formData.append("upload_preset", UPLOAD_PRESET);
-
+  formData.append("file", compressedImage);
+  formData.append("upload_preset", CLOUD_PRESET);
   const response = await fetch(
     `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
     {
       method: "POST",
       body: formData,
-    }
+    },
   );
-
-  const data: CloudinaryResponse = await response.json();
-
-  if (!response.ok || "error" in data) {
-    const errorMessage = "error" in data ? data.error.message : "Upload failed";
-    throw new Error(errorMessage);
+  if(!response.ok)
+  {
+    const errorData = await response.json();
+    throw new Error(errorData?.error?.message || "Failed to upload image.");
   }
-
-  return data.secure_url;
-}
+  const data = await response.json();
+  return {
+    secure_url: data.secure_url,
+    public_id: data.public_id
+  }
+};

@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const signOut = async () => {
-    console.log(`SingOUt is being clicked`);
     return await supabase.auth.signOut();
   };
 

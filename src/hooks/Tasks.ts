@@ -5,6 +5,7 @@ import type {
 } from "../features/todo/types/todo.types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase";
+// import { uploadCloudinary } from "../lib/cloudinary";
 export const useTasks = () => {
   let { user } = useAuth();
   return useQuery({
@@ -56,6 +57,7 @@ export const useCreateTask = () => {
           additional_notes: payload.additional_notes || null,
           priority: payload.priority,
           status: payload.status,
+          image_url:payload.taskImage,
           deadline_at: payload.deadline_at
             ? new Date(payload.deadline_at).toISOString()
             : null,

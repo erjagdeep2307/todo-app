@@ -4,6 +4,7 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { useDeleteTask, useTasks } from "../../hooks/Tasks";
 import { useState, useEffect } from "react";
 import type { Task } from "../../features/todo/types/todo.types";
+import { getImageUrl } from "../../utils/utils";
 
 export default function Tasks() {
   const [curTask, setCurTask] = useState<Task | null>(null);
@@ -12,7 +13,7 @@ export default function Tasks() {
 
   // 1. Auto-select first task when data loads
   useEffect(() => {
-    if (data && data.length > 0 && !curTask) {
+    if (data && data.length > 0 && !curTask) {      
       setCurTask(data[0]);
     }
   }, [data, curTask]);
@@ -23,13 +24,11 @@ export default function Tasks() {
     task: Task
   ) => {
     e.preventDefault();
-    console.log(`Clicked`);
     setCurTask(task);
   };
 
   const handleDeleteTask = () => {
     if (!curTask) return;
-    console.log("Delete clicked for task ID:", curTask.id);
     deleteTask(curTask.id,{
       onSuccess: () => {
           setCurTask(null); // Clear selected task detail view
@@ -43,7 +42,6 @@ export default function Tasks() {
 
   const handleEditTask = () => {
     if (!curTask) return;
-    console.log("Edit clicked for task ID:", curTask.id);
     // Trigger edit modal or drawer here
   };
 
@@ -89,7 +87,7 @@ export default function Tasks() {
               <>
                 <div className="flex gap-3">
                   <img
-                    src={curTask.image_url || cardImage}
+                    src={(curTask?.image_url && getImageUrl(curTask?.image_url,96,96)) || cardImage}
                     className="w-24 h-24 object-cover rounded-md border"
                     alt={curTask.title}
                   />

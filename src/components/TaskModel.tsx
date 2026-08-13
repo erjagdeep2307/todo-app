@@ -6,6 +6,7 @@ import {
   STATUS,
   PRIORITY,
   getTodayDateString,
+  getCloudinaryVersionFromPath,
 } from "../utils/utils";
 import type {
   CreateTaskFormData,
@@ -13,6 +14,7 @@ import type {
   TaskStatus,
 } from "../features/todo/types/todo.types";
 import { useCreateTask } from "../hooks/Tasks";
+import { uploadCloudinary } from "../lib/cloudinary";
 interface TaskModalProp {
   isOpen: boolean;
   onClose: () => void;
@@ -24,6 +26,11 @@ export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
     e.preventDefault();
     let form = e.currentTarget;
     let formData = new FormData(form);
+    let resp = await uploadCloudinary(formData.get("taskImage") as File);
+    if (!resp.secure_url) {
+      console.warn(`Unable to upload the Image`);
+    }
+    const imageVer = getCloudinaryVersionFromPath(resp.secure_url);
     let payload: CreateTaskFormData = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
@@ -31,12 +38,15 @@ export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
       priority: formData.get("priority") as TaskPriority,
       status: formData.get("status") as TaskStatus,
       deadline_at: formData.get("deadline") as string,
+      taskImage: `${imageVer}/${resp.public_id}`,
     };
     createTask(payload, {
       onError: (err) => {
         console.error(err.message);
       },
       onSuccess: () => {
+        e.currentTarget.reset();
+        // onClose();
         console.log(`Created Successfully`);
       },
     });
@@ -44,16 +54,6 @@ export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
   return (
     <Modal title="Add New Task" isOpen={isOpen} onClose={() => onClose()}>
       <form className="w-full" onSubmit={handleSubmit}>
-        {/* Error Banner */}
-        {/* {error && (
-          <div
-            role="alert"
-            className="mb-4 p-3 text-sm text-red-800 bg-red-50 border border-red-200 rounded-md flex items-center gap-2 animate-fadeIn"
-          >
-            <span className="font-medium">{error}</span>
-          </div>
-        )} */}
-
         <FormControl labelText="title" id="title">
           <div className="relative flex items-center gap-2">
             {/* <UserIcon className="absolute left-3 h-5 w-5 text-body" /> */}
@@ -72,25 +72,13 @@ export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
         <FormControl labelText="objective" id="objective">
           <div className="relative flex items-center gap-2">
             {/* <AtSymbolIcon className="absolute left-3 h-5 w-5 text-body" /> */}
-            <textarea
+            <input 
+              type="text"
               id="objective"
               name="objective"
               className={INPUT_BASE_CLASS}
               placeholder="objective of Task"
-              maxLength={255}
-              required
-            />
-          </div>
-        </FormControl>
-        <FormControl labelText="description" id="description">
-          <div className="relative flex items-center gap-2">
-            {/* <AtSymbolIcon className="absolute left-3 h-5 w-5 text-body" /> */}
-            <textarea
-              id="description"
-              name="description"
-              className={INPUT_BASE_CLASS}
-              placeholder="description of Task"
-              maxLength={255}
+              maxLength={100}
               required
             />
           </div>
@@ -122,21 +110,52 @@ export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
               </select>
             </div>
           </FormControl>
+          <FormControl labelText="deadline" id="deadline">
+            <div className="relative flex items-center gap-2">
+              {/* <Lockout className="absolute left-3 h-5 w-5 text-body" /> */}
+              <input
+                type="date"
+                min={getTodayDateString()}
+                id="deadline"
+                name="deadline"
+                className={INPUT_BASE_CLASS}
+                required
+              />
+            </div>
+          </FormControl>
         </div>
-
-        <FormControl labelText="deadline" id="deadline">
+        
+      <div className="flex flex-col md:flex-row w-full gap-2">
+        <FormControl labelText="description" id="description" className="flex-1">
           <div className="relative flex items-center gap-2">
-            {/* <Lockout className="absolute left-3 h-5 w-5 text-body" /> */}
-            <input
-              type="date"
-              min={getTodayDateString()}
-              id="deadline"
-              name="deadline"
+            {/* <AtSymbolIcon className="absolute left-3 h-5 w-5 text-body" /> */}
+            <textarea
+              id="description"
+              name="description"
               className={INPUT_BASE_CLASS}
+              placeholder="description of Task"
+              maxLength={255}
+              rows={3}
+              cols={8}
               required
             />
           </div>
         </FormControl>
+        <FormControl labelText="taskImage" id="taskImage" className="flex-1">
+          <div className="relative flex items-center gap-2">
+            {/* <Lockout className="absolute left-3 h-5 w-5 text-body" /> */}
+            <input
+              type="file"
+              id="taskImage"
+              name="taskImage"
+              accept="image/*"
+              capture="environment"
+              className={`${INPUT_BASE_CLASS} h-20 file:mr-4 file:border-0 file:bg-gray-300 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-green-500`}
+              required
+            />
+          </div>
+        </FormControl>
+</div>
         <Button
           type="submit"
           variant="primary"

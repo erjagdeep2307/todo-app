@@ -2,6 +2,7 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/16/solid";
 import cardImg from "../assets/cardimg.png";
 import Card from "./Card";
 import type { TaskCardProp } from "../features/todo/types/todo.types";
+import { getImageUrl } from "../utils/utils";
 
 const statusBorderMap: Record<string, string> = {
   "Completed": "border-green-400 text-green-400",
@@ -17,12 +18,9 @@ export default function TaskCard({
 }: TaskCardProp) {
 
   let indicator = statusBorderMap[taskData?.status];
-  console.log(indicator);
   // Prevent clicking the ellipsis menu icon from triggering the main card selection
   const handleMenuClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log("Ellipsis menu clicked for task:", taskData?.id);
-    // Open action dropdown menu here
   };
 
   return (
@@ -56,7 +54,7 @@ export default function TaskCard({
 
         <div className="flex items-start shrink-0">
           <img
-            src={taskData?.image_url || cardImg}
+            src={(taskData?.image_url && getImageUrl(taskData?.image_url,48,48)) || cardImg}
             className="w-12 h-12 object-cover rounded-md border"
             alt={taskData?.title || "Task thumbnail"}
           />
