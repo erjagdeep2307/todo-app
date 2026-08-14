@@ -4,7 +4,7 @@ import { lazy } from "react";
 import AuthLayout from "./layouts/AuthLayout";
 import NotFound from "./components/NotFound";
 import AppLayout from "./layouts/AppLayout";
-import LoginSkelton from "./skeltons/LoginSkelton";
+import LoginSkeleton from "./Skeletons/LoginSkeleton";
 // Lazy loading for the content where there is more code and functionality
 const Login = lazy(() => import("./pages/public/Login"));
 const SignUp = lazy(() => import("./pages/public/SignUp"));
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
       },
       { 
         path:"test",
-        element:<LoginSkelton/>
+        element:<LoginSkeleton/>
       },
       {
         path: "register", // Relative to /

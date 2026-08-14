@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Toaster } from "sonner";
 import { Suspense } from "react";
-import LoginSkelton from "../skeltons/LoginSkelton";
+import LoginSkeleton from "../Skeletons/LoginSkeleton";
 
 function AuthLayout() {
   const { user, loading } = useAuth();
@@ -28,7 +28,7 @@ function AuthLayout() {
         <div className="mx-auto flex w-full max-w-5xl items-center justify-center">
           
           <section className="w-full overflow-hidden rounded-lg bg-white p-4 shadow-md sm:p-6 lg:p-8">
-            <Suspense fallback={<LoginSkelton />}>
+            <Suspense fallback={<LoginSkeleton />}>
               <Outlet />
             </Suspense>
           </section>

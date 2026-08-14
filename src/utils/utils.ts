@@ -27,14 +27,15 @@ export const getTodayDateString = () => {
 export const INPUT_BASE_CLASS =
   "bg-neutral-secondary-medium border-default-medium text-heading focus:ring-brand focus:border-brand block w-full rounded-md border py-2.5 px-2 text-sm shadow placeholder:text-body";
 export const PRIORITY = ["Low", "Extreme", "High"];
-export const STATUS = ["Completed", "InProgress", "NoStarted"];
 
 const baseCloudURL = import.meta.env.VITE_CLOUDINARY_BASE_URL;
-export const getImageUrl = (publicId: string, width: number=0, height: number=0) =>
-{
-  if(width===0 || height===0){
-    return `${baseCloudURL}/${publicId}.webp`; 
+export const getImageUrl = (
+  publicId: string,
+  width: number = 0,
+  height: number = 0,
+) => {
+  if (width === 0 || height === 0) {
+    return `${baseCloudURL}/${publicId}.webp`;
   }
   return `${baseCloudURL}w_${width},h_${height},c_fill,g_auto,f_webp,q_auto/${publicId}.webp`;
-
-}
+};

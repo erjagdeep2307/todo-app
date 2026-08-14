@@ -2,7 +2,7 @@ import loginImage from "../../assets/lognImg.svg";
 import Button from "../../components/Button";
 import { UserIcon, LockClosedIcon } from "@heroicons/react/16/solid";
 import type { LoginFormData } from "../../features/todo/types/todo.types";
-import { singIn } from "../../services/Auth";
+import { signIn } from "../../services/Auth";
 import { useState } from "react";
 import { AuthError } from "@supabase/supabase-js";
 import { Link } from "react-router-dom";
@@ -22,7 +22,7 @@ export default function Login() {
       password: formData.get("password") as string,
     };
     setLoading(true);
-    let resp = await singIn(data);
+    let resp = await signIn(data);
     if (resp instanceof AuthError) {
       toast.error(resp.message);
     }
@@ -40,7 +40,7 @@ export default function Login() {
           <h1 className="mb-5 text-2xl font-semibold text-heading">Login</h1>
           <div className="mb-5">
             <label
-              htmlFor="email-alternative"
+              htmlFor="username"
               className="block mb-2.5 text-sm font-medium text-heading"
             >
               Your email
@@ -61,7 +61,7 @@ export default function Login() {
 
           <div className="mb-5">
             <label
-              htmlFor="password-alternative"
+              htmlFor="password"
               className="block mb-2.5 text-sm font-medium text-heading"
             >
               Your password

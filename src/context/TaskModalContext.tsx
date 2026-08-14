@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react"
-import TaskModel from "../components/TaskModel";
+import TaskModal from "../components/TaskModal";
 interface TaskModalContextType {
     isOpen: boolean;
     openTaskModal: () => void;
@@ -14,7 +14,7 @@ export const ModalProvider = ({children}:{children:ReactNode}) => {
     return (
         <TaskModalContext.Provider value={{isOpen,openTaskModal,closeTaskModal}}>
             {children}
-           <TaskModel isOpen={isOpen} onClose={closeTaskModal}/> 
+           <TaskModal isOpen={isOpen} onClose={closeTaskModal}/> 
         </TaskModalContext.Provider>
     );
 }

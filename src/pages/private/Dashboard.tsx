@@ -10,7 +10,7 @@ import userIcon from "../../assets/userIcon.png";
 import TaskCard from "../../components/TaskCard";
 import Card from "../../components/Card";
 import Progress from "../../components/Progress";
-import Avtar from "../../components/Avtar";
+import Avatar from "../../components/Avatar";
 import { useAuth } from "../../context/AuthContext";
 import { useTaskModal } from "../../context/TaskModalContext";
 import { useTasks } from "../../hooks/Tasks";
@@ -22,7 +22,7 @@ function Dashboard() {
   let uName = (uname.split(" ")[0]);
   let completed = data?.filter((item)=>item.status==="Completed");
   let inProces = data?.filter((item)=>item.status==="InProgress");
-  let pending = data?.filter((item)=>item.status==="NoStarted");
+  let pending = data?.filter((item)=>item.status==="NotStarted");
 
   let total = data?.length;
   let tcomp = completed && total ?Math.round(((completed?.length)/total)*100):0;
@@ -42,7 +42,7 @@ function Dashboard() {
           <div className="flex items-center gap-1">
             <div className="flex -space-x-2 overflow-hidden">
             {[1, 2, 3, 4].map((key) => (
-              <Avtar key={key} imgsrc={userIcon} pending={null}/>
+              <Avatar key={key} imgsrc={userIcon} pending={null}/>
             ))}
             </div>
           </div>
@@ -90,7 +90,7 @@ function Dashboard() {
               <div className="flex flex-wrap items-center justify-center sm:gap-1 md:gap-2 lg:gap-4 py-2 lg:py-4 md:px-4 lg:px-6 sm:justify-between">
                     <Progress key={1} color="text-green-500" size={100} caption="Completed" value={tcomp} /> 
                     <Progress key={2} color="text-blue-500" size={100} caption="InProgress" value={tprocs} /> 
-                    <Progress key={3} color="text-red-500" size={100} caption="NoStarted" value={tpend} /> 
+                    <Progress key={3} color="text-red-500" size={100} caption="NotStarted" value={tpend} /> 
               </div>
             </Card>
             <Card className="text-gray-400 border-none shadow-md w-full flex-1 min-h-0 p-3">

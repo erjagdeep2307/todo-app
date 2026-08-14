@@ -5,8 +5,8 @@ if (!supKey || !supUrl) {
   throw new Error(`Missing Supabase Env Data`);
 }
 let activeStorage: Storage = localStorage;
-export const rememberMe = (remeber: boolean) => {
-  activeStorage = remeber ? localStorage : sessionStorage;
+export const rememberMe = (remember: boolean) => {
+  activeStorage = remember ? localStorage : sessionStorage;
 };
 const dynamicStorage = {
   getItem: (key: string) => activeStorage.getItem(key),

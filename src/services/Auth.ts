@@ -10,7 +10,7 @@ async function signUp(formData: SignUpFormData) {
     password: formData.password,
     options: {
       data: {
-        avtar_url:formData.profileImage,
+        avatar_url:formData.profileImage,
         full_name: formData.fullName,
       },
     },
@@ -21,7 +21,7 @@ async function signUp(formData: SignUpFormData) {
   }
   return true;
 }
-async function singIn(formData: LoginFormData) {
+async function signIn(formData: LoginFormData) {
   const { error } = await supabase.auth.signInWithPassword({
     email: formData.username,
     password: formData.password,
@@ -33,4 +33,4 @@ async function singIn(formData: LoginFormData) {
   return true;
 }
 
-export { signUp, singIn };
+export { signUp, signIn };

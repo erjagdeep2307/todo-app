@@ -15,7 +15,7 @@ import { NavLink } from "react-router-dom";
 interface SidebarProps {
   mobileOpen?: boolean;
   onMobileClose?: () => void;
-  avtar: string;
+  avatar: string;
 }
 
 // 1. Define explicit type for navigation items
@@ -29,14 +29,14 @@ interface NavItem {
 export default function Sidebar({
   mobileOpen = false,
   onMobileClose,
-  avtar,
+  avatar,
 }: SidebarProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { signOut } = useAuth();
 
   // 2. Wrap signOut in an arrow function so no MouseEvent is passed to Supabase
   const navItems: NavItem[] = [
-    { label: "Dashboard", icon: RectangleGroupIcon, link: "/" },
+    { label: "Dashboard", icon: RectangleGroupIcon, link: "/admin" },
     { label: "Tasks", icon: DocumentCheckIcon, link: "/admin/tasks" },
     { label: "Settings", icon: Cog6ToothIcon, link: "/admin/settings" },
     {
@@ -90,7 +90,7 @@ export default function Sidebar({
               )}
             >
               <img
-                src={(avtar && getImageUrl(avtar, 0, 0)) || userImage}
+                src={(avatar && getImageUrl(avatar, 0, 0)) || userImage}
                 alt="User Profile"
                 className={cn(
                   "rounded-full bg-white object-cover shadow-lg transition-all duration-300 ease-in-out",

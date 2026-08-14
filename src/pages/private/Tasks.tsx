@@ -6,14 +6,15 @@ import { useState, useEffect } from "react";
 import type { Task } from "../../features/todo/types/todo.types";
 import { getImageUrl } from "../../utils/utils";
 import { toast } from "sonner";
+import Button from "../../components/Button";
 export default function Tasks() {
   const [curTask, setCurTask] = useState<Task | null>(null);
   const { data, isLoading } = useTasks();
-  const {mutate:deleteTask,isPending:isDeleting} = useDeleteTask();
+  const { mutate: deleteTask, isPending: isDeleting } = useDeleteTask();
 
   // 1. Auto-select first task when data loads
   useEffect(() => {
-    if (data && data.length > 0 && !curTask) {      
+    if (data && data.length > 0 && !curTask) {
       setCurTask(data[0]);
     }
   }, [data, curTask]);
@@ -21,7 +22,7 @@ export default function Tasks() {
   // 2. Properly typed click handler that updates curTask
   const handleCardSelection = (
     e: React.MouseEvent<HTMLDivElement>,
-    task: Task
+    task: Task,
   ) => {
     e.preventDefault();
     setCurTask(task);
@@ -29,14 +30,14 @@ export default function Tasks() {
 
   const handleDeleteTask = () => {
     if (!curTask) return;
-    deleteTask(curTask.id,{
+    deleteTask(curTask.id, {
       onSuccess: () => {
-          setCurTask(null); // Clear selected task detail view
-          toast.success(`Task Deleted`);
-        },
-        onError: (error) => {
-          toast.error(error.message);
-        },
+        setCurTask(null); // Clear selected task detail view
+        toast.success(`Task Deleted`);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
     });
   };
 
@@ -49,7 +50,6 @@ export default function Tasks() {
     <div className="max-w-7xl mx-auto sm:px-4 h-full min-h-0 flex flex-col gap-1">
       <section className="flex-1 flex-wrap min-h-0 overflow-y-auto bg-slate rounded-lg">
         <div className="flex min-h-full flex-col gap-3 lg:flex-row lg:justify-between p-2">
-          
           {/* Left Panel: Task List */}
           <div className="flex flex-col text-[11px] bg-white text-gray-400 w-full lg:w-[45%] min-h-full border border-gray-200 rounded-lg p-3 sm:text-xs">
             <div className="flex flex-col gap-1">
@@ -87,7 +87,11 @@ export default function Tasks() {
               <>
                 <div className="flex gap-3">
                   <img
-                    src={(curTask?.image_url && getImageUrl(curTask?.image_url,96,96)) || cardImage}
+                    src={
+                      (curTask?.image_url &&
+                        getImageUrl(curTask?.image_url, 96, 96)) ||
+                      cardImage
+                    }
                     className="w-24 h-24 object-cover rounded-md border"
                     alt={curTask.title}
                   />
@@ -140,14 +144,27 @@ export default function Tasks() {
 
                   {/* Action Icons */}
                   <div className="absolute flex gap-2 bottom-0 right-0">
-                    <TrashIcon
-                      className={`w-6 h-6 rounded-sm p-1 bg-todo-primary text-white ${isDeleting?"cursor-progress pointer-events-none":"cursor-pointer"} hover:opacity-90`}
+                    <Button
+                      aria-label="Delete"
+                      title="Delete Task"
+                      isLoading={isDeleting}
+                      className={`w-6 h-6 rounded-sm p-1 bg-todo-primary text-white ${isDeleting ? "cursor-progress pointer-events-none" : "cursor-pointer"} hover:opacity-90`}
                       onClick={handleDeleteTask}
-                    />
-                    <PencilSquareIcon
-                      className="w-6 h-6 rounded-sm p-1 bg-todo-primary text-white cursor-pointer hover:opacity-90"
-                      onClick={handleEditTask}
-                    />
+                    >
+                      <TrashIcon className={`w-4 h-4 `} />
+                    </Button>
+                    <Button
+                      aria-label="Edit"
+                      title="Edit Task"
+                      isLoading={isDeleting}
+                      className={`w-6 h-6 rounded-sm p-1 bg-todo-primary text-white ${isDeleting ? "cursor-progress pointer-events-none" : "cursor-pointer"} hover:opacity-90`}
+                      onClick={handleDeleteTask}
+                    >
+                      <PencilSquareIcon
+                        className="w-4 h-4"
+                        onClick={handleEditTask}
+                      />
+                    </Button>
                   </div>
                 </div>
               </>
@@ -157,7 +174,6 @@ export default function Tasks() {
               </div>
             )}
           </div>
-
         </div>
       </section>
     </div>

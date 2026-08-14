@@ -20,6 +20,7 @@ export interface UserThumb {
   imgsrc: string;
   pending: number | null | undefined;
 }
+
 export interface ProgressData {
   value: number;
   size: number;
@@ -27,10 +28,9 @@ export interface ProgressData {
   caption: string;
 }
 
-export interface TaskCardProp extends ComponentPropsWithoutRef<"div">  
-{
+export interface TaskCardProps extends ComponentPropsWithoutRef<"div"> {
   extraClass?: string;
-  taskData:Task;
+  taskData: Task;
 }
 
 export interface ImageInfo {
@@ -74,7 +74,16 @@ export interface AuthContextType {
 
 export type TaskPriority = "Low" | "Extreme" | "High";
 
-export type TaskStatus = "NoStarted" | "InProgress" | "Completed";
+export const STATUS_DATA = {
+  Completed: { label: "Completed", border: "border-green-400 text-green-400" },
+  InProgress: { label: "In Progress", border: "border-blue-400 text-blue-500" },
+  NotStarted: {
+    label: "Not Started",
+    border: "border-todo-primary text-todo-primary",
+  },
+} as const;
+
+export type TaskStatus = keyof typeof STATUS_DATA;
 
 export interface CreateTaskFormData {
   title: string;
@@ -100,4 +109,3 @@ export interface Task {
   created_at: string;
   deadline_at: string;
 }
-

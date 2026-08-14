@@ -2,10 +2,9 @@ import Modal from "./Modal";
 import FormControl from "./FormControl";
 import Button from "./Button";
 import { cn } from "../utils/utils";
-import {toast} from "sonner";
+import { toast } from "sonner";
 import {
   INPUT_BASE_CLASS,
-  STATUS,
   PRIORITY,
   getTodayDateString,
   getCloudinaryVersionFromPath,
@@ -15,13 +14,14 @@ import type {
   TaskPriority,
   TaskStatus,
 } from "../features/todo/types/todo.types";
+import { STATUS_DATA } from "../features/todo/types/todo.types";
 import { useCreateTask } from "../hooks/Tasks";
 import { uploadCloudinary } from "../lib/cloudinary";
-interface TaskModalProp {
+interface TaskModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
+export default function TaskModal({ isOpen, onClose }: TaskModalProps) {
   // const [error, setError] = useState<string | "">("");
   const { mutate: createTask, isPending: isCreating } = useCreateTask();
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -44,12 +44,12 @@ export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
     };
     createTask(payload, {
       onError: (err) => {
-        toast.error(err.message)
+        toast.error(err.message);
       },
       onSuccess: () => {
         form.reset();
         onClose();
-        toast.success(`Task Created`)
+        toast.success(`Task Created`);
       },
     });
   };
@@ -104,9 +104,9 @@ export default function TaskModel({ isOpen, onClose }: TaskModalProp) {
               {/* <LockClosedIcon className="absolute left-3 h-5 w-5 text-body" /> */}
               <select name="status" className={INPUT_BASE_CLASS} required>
                 <option>Choose Status</option>
-                {STATUS.map((item, key) => (
-                  <option key={key} value={item}>
-                    {item}
+                {Object.entries(STATUS_DATA).map(([value, data]) => (
+                  <option key={value} value={value}>
+                    {data.label}
                   </option>
                 ))}
               </select>
