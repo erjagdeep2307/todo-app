@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
@@ -27,9 +27,17 @@ export default function AppLayout() {
           mobileOpen={mobileMenuOpen}
           onMobileClose={() => setMobileMenuOpen(false)}
           avtar={user?.user_metadata?.avtar_url}
-                  />
+        />
         <main className="min-w-0 flex-1 min-h-0 overflow-hidden px-3 pb-1 bg-slate sm:px-6">
-          <Outlet />
+          <Suspense
+            fallback={
+              <div className="flex items-center h-full justify-center animate-ping">
+                Loading...
+              </div>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </main>
         <Toaster position="top-right" richColors />
       </div>

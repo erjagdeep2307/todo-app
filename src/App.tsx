@@ -1,13 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { lazy } from "react";
+// Not much contents here so they will load instantly
 import AuthLayout from "./layouts/AuthLayout";
-import Login from "./pages/public/Login";
-import SignUp from "./pages/public/SignUp";
-import AppLayout from "./layouts/AppLayout";
-import Dashboard from "./pages/private/Dashboard";
-import Tasks from "./pages/private/Tasks";
 import NotFound from "./components/NotFound";
+import AppLayout from "./layouts/AppLayout";
+import LoginSkelton from "./skeltons/LoginSkelton";
+// Lazy loading for the content where there is more code and functionality
+const Login = lazy(() => import("./pages/public/Login"));
+const SignUp = lazy(() => import("./pages/public/SignUp"));
+const Dashboard = lazy(() => import("./pages/private/Dashboard"));
+const Tasks = lazy(() => import("./pages/private/Tasks"));
 
 const router = createBrowserRouter([
+  //Authorized Routes
   {
     path: "/admin",
     element: <AppLayout />,
@@ -26,6 +31,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // Public Routes
   {
     path: "/",
     element: <AuthLayout />,
@@ -33,6 +39,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Login />,
+      },
+      { 
+        path:"test",
+        element:<LoginSkelton/>
       },
       {
         path: "register", // Relative to /
@@ -49,7 +59,6 @@ const router = createBrowserRouter([
     element: <NotFound />,
   },
 ]);
-
 export default function App() {
   return <RouterProvider router={router} />;
 }
