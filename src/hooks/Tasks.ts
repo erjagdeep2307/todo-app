@@ -57,7 +57,7 @@ export const useCreateTask = () => {
           additional_notes: payload.additional_notes || null,
           priority: payload.priority,
           status: payload.status,
-          image_url:payload.taskImage,
+          image_url: payload.taskImage || null,
           deadline_at: payload.deadline_at
             ? new Date(payload.deadline_at).toISOString()
             : null,
@@ -68,8 +68,52 @@ export const useCreateTask = () => {
       }
       return data;
     },
-    onSuccess:()=>{
-      queryClient.invalidateQueries({queryKey:["tasks"]});
-    }
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+};
+
+export const useUpdateTask = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: CreateTaskFormData;
+    }) => {
+      const updatePayload: Record<string, unknown> = {
+        title: payload.title,
+        objective: payload.objective,
+        description: payload.description,
+        additional_notes: payload.additional_notes || null,
+        priority: payload.priority,
+        status: payload.status,
+        deadline_at: payload.deadline_at
+          ? new Date(payload.deadline_at).toISOString()
+          : null,
+      };
+
+      if (payload.taskImage) {
+        updatePayload.image_url = payload.taskImage;
+      }
+
+      const { data, error } = await supabase
+        .from("tasks")
+        .update(updatePayload)
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
   });
 };

@@ -1,7 +1,6 @@
 import loginImage from "../../assets/lognImg.svg";
 import Button from "../../components/Button";
 import { UserIcon, LockClosedIcon } from "@heroicons/react/16/solid";
-import type { LoginFormData } from "../../features/todo/types/todo.types";
 import { signIn } from "../../services/Auth";
 import { useState } from "react";
 import { AuthError } from "@supabase/supabase-js";
@@ -9,6 +8,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import FormControl from "../../components/FormControl";
 import { rememberMe } from "../../lib/supabase";
+import { loginFormSchema } from "../../lib/validations/zodSchema";
 
 export default function Login() {
   const [remind, setRemind] = useState<boolean>(false);
@@ -17,12 +17,14 @@ export default function Login() {
     e.preventDefault();
     const form = e.currentTarget;
     let formData = new FormData(form);
-    let data: LoginFormData = {
-      username: formData.get("username") as string,
-      password: formData.get("password") as string,
-    };
+    const rawData = Object.fromEntries(formData.entries());
+    let response = loginFormSchema.safeParse(rawData);
+    if(response.error){
+      toast.error(response.error.message);
+      return;
+    }  
     setLoading(true);
-    let resp = await signIn(data);
+    let resp = await signIn(response.data);
     if (resp instanceof AuthError) {
       toast.error(resp.message);
     }

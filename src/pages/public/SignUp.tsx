@@ -9,12 +9,12 @@ import {
 } from "@heroicons/react/16/solid";
 import { LockClosedIcon as Lockout } from "@heroicons/react/24/outline";
 import FormControl from "../../components/FormControl";
-import type { SignUpFormData } from "../../features/todo/types/todo.types";
 import { Link } from "react-router-dom";
 import { AuthError } from "@supabase/supabase-js";
 import { toast } from "sonner";
 import { uploadCloudinary } from "../../lib/cloudinary";
 import { getCloudinaryVersionFromPath } from "../../utils/utils";
+import { signUpFormScheama } from "../../lib/validations/zodSchema";
 export default function SignUp() {
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string>("");
@@ -27,35 +27,23 @@ export default function SignUp() {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-
-    const data: SignUpFormData = {
-      fullName: formData.get("fullName") as string,
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
-      confirmPassword: formData.get("confirmPassword") as string,
-      profileImage: null,
-    };
-
-    // Client-side validation before triggering API call
-    if (data.password !== data.confirmPassword) {
-      setError("Passwords do not match!");
+    const formEntries = Object.fromEntries(formData.entries());
+    const response = signUpFormScheama.safeParse(formEntries);
+    if (response.error) {
+      setError(response.error.message);
+      toast.error(response.error.message);
       return;
     }
-
-    if (data.password.length < 6) {
-      setError("Password must be at least 6 characters long.");
-      return;
-    }
-
+   
     setIsSending(true);
     let resp = await uploadCloudinary(formData.get("profileImage") as File);
     if (!resp.secure_url) {
       toast.warning(`Unable to upload the Image`);
     }
     const imageVer = getCloudinaryVersionFromPath(resp.secure_url);
-    data.profileImage = `${imageVer}/${resp.public_id}`;
+    response.data.profileImage = `${imageVer}/${resp.public_id}`;
     try {
-      const resp = await signUp(data);
+      const resp = await signUp(response.data);
       if (resp instanceof AuthError) {
         setError(resp.message);
       } else {

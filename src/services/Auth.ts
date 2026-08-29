@@ -1,7 +1,4 @@
-import type {
-  LoginFormData,
-  SignUpFormData,
-} from "../features/todo/types/todo.types";
+import type { SignUpFormData,LoginFormData } from "../lib/validations/zodSchema";
 import { supabase } from "../lib/supabase";
 
 async function signUp(formData: SignUpFormData) {

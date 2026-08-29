@@ -13,7 +13,7 @@ export function getCloudinaryVersionFromPath(cloudinaryUrl: string) {
     // Find the path segment starting with 'v' followed purely by numbers
     const versionSegment = segments.find((seg) => /^v\d+$/.test(seg));
     return versionSegment || null;
-  } catch (e) {
+  } catch {
     return null; // Invalid URL
   }
 }
@@ -26,7 +26,7 @@ export const getTodayDateString = () => {
 };
 export const INPUT_BASE_CLASS =
   "bg-neutral-secondary-medium border-default-medium text-heading focus:ring-brand focus:border-brand block w-full rounded-md border py-2.5 px-2 text-sm shadow placeholder:text-body";
-export const PRIORITY = ["Low", "Extreme", "High"];
+export const PRIORITY = ["Low", "Medium", "High", "Extreme"] as const;
 
 const baseCloudURL = import.meta.env.VITE_CLOUDINARY_BASE_URL;
 export const getImageUrl = (

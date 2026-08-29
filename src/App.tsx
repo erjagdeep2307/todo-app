@@ -10,6 +10,7 @@ const Login = lazy(() => import("./pages/public/Login"));
 const SignUp = lazy(() => import("./pages/public/SignUp"));
 const Dashboard = lazy(() => import("./pages/private/Dashboard"));
 const Tasks = lazy(() => import("./pages/private/Tasks"));
+const Settings = lazy(() => import("./pages/private/Settings"));
 
 const router = createBrowserRouter([
   //Authorized Routes
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "tasks", // Relative to /admin
         element: <Tasks />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
       },
       {
         path: "*", // Catches invalid /admin/* sub-routes inside AppLayout

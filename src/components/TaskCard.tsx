@@ -1,45 +1,56 @@
 import { EllipsisHorizontalIcon } from "@heroicons/react/16/solid";
 import cardImg from "../assets/cardimg.png";
 import Card from "./Card";
-import { STATUS_DATA } from "../features/todo/types/todo.types";
+import {
+  STATUS_DATA,
+  type TaskPriority,
+} from "../features/todo/types/todo.types";
 import type { TaskCardProps } from "../features/todo/types/todo.types";
 import { getImageUrl } from "../utils/utils";
+
+const priorityClass: Record<TaskPriority, string> = {
+  Low: "bg-emerald-50 text-emerald-700",
+  Medium: "bg-amber-50 text-amber-700",
+  High: "bg-orange-50 text-orange-700",
+  Extreme: "bg-red-50 text-red-700",
+};
+
 export default function TaskCard({
   extraClass = "",
   taskData,
   onClick,
   ...restProps
 }: TaskCardProps) {
-  let indicator = STATUS_DATA?.[taskData?.status]?.border;
-  // Prevent clicking the ellipsis menu icon from triggering the main card selection
+  const indicator = STATUS_DATA?.[taskData?.status]?.border;
+
   const handleMenuClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
   return (
     <Card
-      className={`relative cursor-pointer transition-all ${extraClass}`}
+      className={`relative cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-todo-primary ${extraClass}`}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
       {...restProps}
     >
-      {/* Priority Status Indicator Dot */}
       <span
-        className={`w-2 h-2 border-2 rounded-full ${indicator} absolute left-2 top-2`}
-      ></span>
+        className={`absolute left-2 top-2 h-2 w-2 rounded-full border-2 ${indicator}`}
+      />
 
-      {/* Options Ellipsis Icon */}
       <button
         type="button"
-        className="absolute right-1 top-1 p-1 hover:bg-gray-100 rounded-full text-gray-400 hover:text-black"
+        className="absolute right-1 top-1 rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-black"
         onClick={handleMenuClick}
+        aria-label="Task options"
       >
-        <EllipsisHorizontalIcon className="w-4 h-4" />
+        <EllipsisHorizontalIcon className="h-4 w-4" />
       </button>
 
-      {/* Card Body */}
       <div className="flex justify-between gap-2 pt-2">
-        <div className="flex flex-col gap-1 flex-1">
-          <h3 className="text-sm font-bold text-black line-clamp-1">
+        <div className="flex flex-1 flex-col gap-1">
+          <h3 className="line-clamp-1 text-sm font-bold text-black">
             {taskData?.title}
           </h3>
           <p className="line-clamp-2 text-xs text-gray-500">
@@ -47,30 +58,29 @@ export default function TaskCard({
           </p>
         </div>
 
-        <div className="flex items-start shrink-0">
+        <div className="flex shrink-0 items-start">
           <img
             src={
               (taskData?.image_url &&
                 getImageUrl(taskData?.image_url, 48, 48)) ||
               cardImg
             }
-            className="w-12 h-12 object-cover rounded-md border"
+            className="h-12 w-12 rounded-md border object-cover"
             alt={taskData?.title || "Task thumbnail"}
           />
         </div>
       </div>
 
-      {/* Card Footer */}
-      <div className="flex items-center text-black text-[10px] justify-between pt-2 border-t border-gray-100 mt-2">
-        <span>
-          <strong className="font-semibold">Priority:</strong>{" "}
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-gray-100 pt-2 text-[10px] text-black">
+        <span
+          className={`rounded px-2 py-0.5 font-semibold ${priorityClass[taskData.priority]}`}
+        >
           {taskData?.priority}
         </span>
-        <span>
-          <strong className="font-semibold">Status:</strong> {taskData?.status}
+        <span className={`font-semibold ${STATUS_DATA[taskData.status].border}`}>
+          {STATUS_DATA[taskData.status].label}
         </span>
         <span>
-          <strong className="font-semibold">Created At:</strong>
           {taskData?.created_at
             ? new Date(taskData.created_at).toLocaleDateString("en-US", {
                 month: "short",

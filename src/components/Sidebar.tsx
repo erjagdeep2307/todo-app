@@ -37,7 +37,7 @@ export default function Sidebar({
   // 2. Wrap signOut in an arrow function so no MouseEvent is passed to Supabase
   const navItems: NavItem[] = [
     { label: "Dashboard", icon: RectangleGroupIcon, link: "/admin" },
-    { label: "Tasks", icon: DocumentCheckIcon, link: "/admin/tasks" },
+    { label: "Vital Tasks", icon: DocumentCheckIcon, link: "/admin/tasks" },
     { label: "Settings", icon: Cog6ToothIcon, link: "/admin/settings" },
     {
       label: "Logout",

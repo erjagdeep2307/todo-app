@@ -1,8 +1,9 @@
 import imageCompression from "browser-image-compression";
+import { toast } from "sonner";
 const CLOUD_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET;
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD;
 if (!CLOUD_NAME || !CLOUD_PRESET) {
-  console.warn(`Missing Cloudinary Information form Enviourment`);
+  toast.error(`Missing Cloudinary Information form Enviourment`);
 }
 export interface CloudinaryUploadResp {
   public_id: string;

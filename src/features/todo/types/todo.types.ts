@@ -46,18 +46,18 @@ export interface UserProfile {
   created_at?: string;
 }
 
-export interface SignUpFormData {
-  fullName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  profileImage: string | null;
-}
+// export interface SignUpFormData {
+//   fullName: string;
+//   email: string;
+//   password: string;
+//   confirmPassword: string;
+//   profileImage: string | null;
+// }
 
-export interface LoginFormData {
-  username: string;
-  password: string;
-}
+// export interface LoginFormData {
+//   username: string;
+//   password: string;
+// }
 
 export interface FormControls extends ComponentPropsWithoutRef<"div"> {
   labelText: string;
@@ -72,7 +72,7 @@ export interface AuthContextType {
   signOut: () => Promise<{ error: AuthError | null }>;
 }
 
-export type TaskPriority = "Low" | "Extreme" | "High";
+export type TaskPriority = "Low" | "Medium" | "High" | "Extreme";
 
 export const STATUS_DATA = {
   Completed: { label: "Completed", border: "border-green-400 text-green-400" },
@@ -108,4 +108,10 @@ export interface Task {
   priority: TaskPriority;
   created_at: string;
   deadline_at: string;
+}
+
+export interface TaskModalProps {
+  isOpen: boolean;
+  taskToEdit?: Task | null;
+  onClose: () => void;
 }
