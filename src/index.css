@@ -23,7 +23,7 @@
 /* 3. Custom Utility Classes */
 .bg-pattern {
   background-color: var(--color-todo-primary);
-  background-image: url("assets/bgpattern.png");
+  background-image: url("assets/bgpattern.webp");
   background-repeat: repeat;
 }
 
